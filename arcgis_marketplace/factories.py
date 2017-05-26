@@ -33,13 +33,15 @@ class AccountFactory(factory.django.DjangoModelFactory):
     data = dict(
         access_token='test',
         refresh_token='test',
-        username='test')
+        username='test'
+    )
 
     expired = factory.Faker(
         'date_time_between',
         start_date='+1d',
         end_date='+2d',
-        tzinfo=utc)
+        tzinfo=utc
+    )
 
     class Meta:
         model = 'arcgis_marketplace.Account'

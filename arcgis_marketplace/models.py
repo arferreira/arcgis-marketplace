@@ -33,7 +33,8 @@ class Account(core_models.SoftDeletableModel,
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.PROTECT,
-        verbose_name=_('user'))
+        verbose_name=_('user')
+    )
 
     avatar = ImageField(
         _('avatar'),
@@ -155,7 +156,8 @@ class Item(PolymorphicModel,
     owner = models.ForeignKey(
         'Account',
         on_delete=models.CASCADE,
-        verbose_name=_('owner'))
+        verbose_name=_('owner')
+    )
 
     title = models.CharField(_('title'), max_length=255)
     description = models.TextField(_('description'), blank=True)
@@ -202,10 +204,11 @@ class PurposeItem(Item):
         ('ready_to_use', _('Ready to use')),
         ('configurable', _('Configurable')),
         ('self_configurable', _('Self configurable')),
-        ('code_sample', _('Code sample')))
+        ('code_sample', _('Code sample'))
+    )
 
     purpose = models.CharField(_('purpose'), choices=PURPOSES, max_length=32)
-    configuration = models.TextField(_('configuration'))
+    configuration = models.TextField(_('configuration'), blank=True)
 
     class Meta:
         abstract = True
@@ -217,7 +220,8 @@ class WebMapingApp(PurposeItem):
         ('flex', _('Flex')),
         ('silverlight', _('Silverlight')),
         ('web_adf', _('Web ADF')),
-        ('other', _('Other')))
+        ('other', _('Other'))
+    )
 
     api = models.CharField(_('api'), choices=APIS, max_length=32)
 

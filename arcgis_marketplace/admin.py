@@ -9,7 +9,9 @@ from . import models
 class AccountAdmin(admin.ModelAdmin):
     list_display = (
         'user', 'username', 'first_name', 'last_name', 'type', 'role',
-        'organization_id', 'created', 'modified', 'expired', 'removed')
+        'organization_id', 'created', 'modified', 'expired', 'removed'
+    )
+
     list_filter = ('created', 'modified', 'expired', 'removed')
 
     def username(self, obj):
