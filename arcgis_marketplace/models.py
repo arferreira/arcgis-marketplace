@@ -130,8 +130,8 @@ class Account(core_models.SoftDeletableModel,
         return self.self()['subscriptionInfo']['type']
 
     def save_thumbnail(self, thumbnail):
-        if thumbnail and (
-                not self.avatar.name or thumbnail != self.thumbnail):
+        if thumbnail and \
+                (not self.avatar.name or thumbnail != self.thumbnail):
 
             content = ContentFile(
                 self.api.user_thumbnail(
