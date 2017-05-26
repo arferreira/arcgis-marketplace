@@ -46,6 +46,9 @@ class Account(core_models.SoftDeletableModel,
     expired = models.DateTimeField(null=True)
     data = pg_fields.JSONField()
 
+    class Meta:
+        ordering = ('-created',)
+
     def __str__(self):
         return self.user.email
 
