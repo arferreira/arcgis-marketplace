@@ -4,6 +4,7 @@ from dateutil.relativedelta import relativedelta
 
 from django.conf import settings
 from django.contrib.postgres import fields as pg_fields
+from django.core.files.base import ContentFile
 from django.core.validators import MinValueValidator
 from django.core.validators import RegexValidator
 from django.db import models
@@ -33,6 +34,14 @@ class Account(core_models.SoftDeletableModel,
         settings.AUTH_USER_MODEL,
         on_delete=models.PROTECT,
         verbose_name=_('user'))
+
+    avatar = ImageField(
+        _('avatar'),
+        blank=True,
+        upload_to=core_models.UUIDUploadTo(
+            arcgis_settings.ARCGIS_UPLOAD_THUMBNAILS_TO
+        )
+    )
 
     expired = models.DateTimeField(null=True)
     data = pg_fields.JSONField()
@@ -95,6 +104,8 @@ class Account(core_models.SoftDeletableModel,
 
     def me(self):
         data = self.api.user_detail(self.username)
+
+        self.save_thumbnail(data.get('thumbnail'))
         self.data.update(camel_to_dashed(data))
         self.save()
         return data
@@ -113,6 +124,19 @@ class Account(core_models.SoftDeletableModel,
     @property
     def subscription_type(self):
         return self.self()['subscriptionInfo']['type']
+
+    def save_thumbnail(self, thumbnail):
+        if thumbnail and (
+                not self.avatar.name or thumbnail != self.thumbnail):
+
+            content = ContentFile(
+                self.api.user_thumbnail(
+                    username=self.username,
+                    filename=thumbnail
+                )
+            )
+
+            self.avatar.save(thumbnail, content, save=True)
 
 
 class GenericUUIDTaggedItem(taggit_models.CommonGenericTaggedItemBase,

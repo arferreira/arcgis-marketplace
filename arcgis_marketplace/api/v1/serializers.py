@@ -35,7 +35,7 @@ class AccountSerializer(ItemAccountSerializer):
 
     class Meta:
         model = models.Account
-        fields = ('id',)
+        fields = ('id', 'avatar')
         extra_kwargs = {
             'id': {'source': 'id.hex'}
         }
