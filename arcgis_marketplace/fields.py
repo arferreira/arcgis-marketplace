@@ -14,7 +14,7 @@ class CompressField(FileField):
     def pre_save(self, model_instance, add):
         file = super().pre_save(model_instance, add)
 
-        if file._file is not None:
+        if file.name:
             outpath = os.path.splitext(file.path)[0]
 
             if not os.path.isdir(outpath) and zipfile.is_zipfile(file):
