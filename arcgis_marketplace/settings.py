@@ -13,7 +13,6 @@ ARCGIS_UPLOAD_THUMBNAILS_TO = getattr(
     'arcgis/thumbnails/%Y/%m/'
 )
 
-
 ARCGIS_REVERSE_EXTRA_KWARGS = getattr(
     settings,
     'ARCGIS_REVERSE_EXTRA_KWARGS',
