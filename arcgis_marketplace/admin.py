@@ -9,8 +9,8 @@ from . import models
 class AccountAdmin(admin.ModelAdmin):
     list_display = (
         'user', 'username', 'first_name', 'last_name', 'type', 'role',
-        'organization_id', 'created', 'modified', 'expired')
-    list_filter = ('created', 'modified', 'expired')
+        'organization_id', 'created', 'modified', 'expired', 'removed')
+    list_filter = ('created', 'modified', 'expired', 'removed')
 
     def username(self, obj):
         return obj.username
@@ -38,8 +38,8 @@ class ItemAdmin(AdminImageMixin,
     base_model = models.Item
     child_models = (models.WebMapingApp,)
 
-    list_display = ['owner', 'title', 'price', 'created']
-    list_filter = ['owner', 'created']
+    list_display = ['owner', 'title', 'price', 'created', 'removed']
+    list_filter = ['owner', 'created', 'removed']
 
 
 class ItemChildAdmin(polymorphic_admin.PolymorphicChildModelAdmin):
