@@ -13,7 +13,7 @@ class ExceptionTests(BaseViewTests):
         add_response(
             'GET',
             'community/users/test',
-            body={'error': 'test'},
+            json={'error': 'test'},
             status=status.HTTP_400_BAD_REQUEST
         )
 

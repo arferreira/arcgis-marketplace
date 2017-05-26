@@ -13,7 +13,7 @@ class MeViewTests(BaseViewTests):
         add_response(
             'GET',
             'community/users/test',
-            body={'username': 'test'}
+            json={'username': 'test'}
         )
 
         response = self.client.get(self.reverse('me-list'))
@@ -26,7 +26,7 @@ class MeViewTests(BaseViewTests):
         add_response(
             'GET',
             'content/users/test',
-            body={'total': 1}
+            json={'total': 1}
         )
 
         response = self.client.get(self.reverse('me-items'))
@@ -37,7 +37,7 @@ class MeViewTests(BaseViewTests):
         add_response(
             'GET',
             'community/users/test',
-            body={'groups': []}
+            json={'groups': []}
         )
 
         response = self.client.get(self.reverse('me-groups'))

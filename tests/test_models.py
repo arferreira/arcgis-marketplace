@@ -42,7 +42,7 @@ class ModelsTests(TestCase):
         add_response(
             'GET',
             'oauth2/token/',
-            body={
+            json={
                 'access_token': 'new!',
                 'expires_in': 1800
             }
@@ -59,7 +59,7 @@ class ModelsTests(TestCase):
         add_response(
             'GET',
             'community/users/test',
-            body={'test': True}
+            json={'test': True}
         )
 
         account = factories.AccountFactory()
@@ -72,7 +72,7 @@ class ModelsTests(TestCase):
         add_response(
             'GET',
             'portals/self',
-            body={'featuredGroups': []}
+            json={'featuredGroups': []}
         )
 
         account = factories.AccountFactory()
@@ -83,7 +83,7 @@ class ModelsTests(TestCase):
         add_response(
             'GET',
             'portals/self',
-            body={'subscriptionInfo': {'type': 'test'}}
+            json={'subscriptionInfo': {'type': 'test'}}
         )
 
         account = factories.AccountFactory()

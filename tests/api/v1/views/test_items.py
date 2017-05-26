@@ -13,7 +13,7 @@ class ItemViewTests(BaseViewTests):
         add_response(
             'POST',
             'content/users/test/addItem',
-            body={'success': True}
+            json={'success': True}
         )
 
         response = self.client.post(
@@ -31,7 +31,7 @@ class ItemViewTests(BaseViewTests):
         add_response(
             'GET',
             'content/items/itemId',
-            body={'id': 'test'}
+            json={'id': 'test'}
         )
 
         response = self.client.get(
@@ -46,7 +46,7 @@ class ItemViewTests(BaseViewTests):
         add_response(
             'POST',
             'content/items/itemId/share',
-            body={'itemId': 'test'}
+            json={'itemId': 'test'}
         )
 
         response = self.client.post(

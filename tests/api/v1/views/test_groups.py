@@ -13,7 +13,7 @@ class GroupiewTests(BaseViewTests):
         add_response(
             'GET',
             'community/groups',
-            body={'total': 1}
+            json={'total': 1}
         )
 
         response = self.client.get(
@@ -29,7 +29,7 @@ class GroupiewTests(BaseViewTests):
         add_response(
             'POST',
             'community/createGroup',
-            body={'success': True}
+            json={'success': True}
         )
 
         response = self.client.post(
@@ -46,7 +46,7 @@ class GroupiewTests(BaseViewTests):
         add_response(
             'GET',
             'community/groups/test',
-            body={'id': 'test'}
+            json={'id': 'test'}
         )
 
         response = self.client.get(
@@ -61,7 +61,7 @@ class GroupiewTests(BaseViewTests):
         add_response(
             'POST',
             'community/groups/test/update',
-            body={'title': 'updated'}
+            json={'title': 'updated'}
         )
 
         if method is None:
@@ -84,7 +84,7 @@ class GroupiewTests(BaseViewTests):
         add_response(
             'POST',
             'community/groups/test/delete',
-            body={'success': True}
+            json={'success': True}
         )
 
         response = self.client.delete(
@@ -100,7 +100,7 @@ class GroupiewTests(BaseViewTests):
         add_response(
             'POST',
             'community/groups/test/addUsers',
-            body={'added': users.split(',')}
+            json={'added': users.split(',')}
         )
 
         response = self.client.post(
@@ -118,7 +118,7 @@ class GroupiewTests(BaseViewTests):
         add_response(
             'POST',
             'community/groups/test/invite',
-            body={'success': True}
+            json={'success': True}
         )
 
         response = self.client.post(
@@ -134,7 +134,7 @@ class GroupiewTests(BaseViewTests):
         add_response(
             'GET',
             'content/groups/test',
-            body={'total': 1}
+            json={'total': 1}
         )
 
         response = self.client.get(
@@ -148,7 +148,7 @@ class GroupiewTests(BaseViewTests):
         add_response(
             'POST',
             'community/groups/test/update',
-            body={'title': 'updated'}
+            json={'title': 'updated'}
         )
 
         response = self.client.post(

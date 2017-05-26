@@ -13,7 +13,7 @@ class SelfViewTests(BaseViewTests):
         add_response(
             'GET',
             'portals/self',
-            body={'name': 'test-self'}
+            json={'name': 'test-self'}
         )
 
         response = self.client.get(self.reverse('self-list'))
@@ -26,7 +26,7 @@ class SelfViewTests(BaseViewTests):
         add_response(
             'GET',
             'portals/self/roles',
-            body={'total': 1}
+            json={'total': 1}
         )
 
         response = self.client.get(self.reverse('self-roles'))
@@ -37,7 +37,7 @@ class SelfViewTests(BaseViewTests):
         add_response(
             'GET',
             'portals/self/users',
-            body={'total': 1}
+            json={'total': 1}
         )
 
         response = self.client.get(self.reverse('self-users'))
