@@ -1,7 +1,7 @@
 Django Arcgis Marketplace
 =========================
 
-|Pypi| |Wheel| |Build Status| |Codecov| |Code Climate|
+|Waffle| |Pypi| |Wheel| |Build Status| |Codecov| |Code Climate|
 
 
 Arcgis marketplace application.
@@ -68,6 +68,10 @@ Apply migrations.
     python manage.py migrate
 
 
+.. |Waffle| image:: https://badge.waffle.io/flavors/arcgis-marketplace.png?label=ready&title=Ready 
+   :target: https://waffle.io/flavors/arcgis-marketplace?utm_source=badge
+   :alt: 'Stories in Ready'
+
 .. |Pypi| image:: https://img.shields.io/pypi/v/django-arcgis-marketplace.svg
    :target: https://pypi.python.org/pypi/django-arcgis-marketplace
 
@@ -82,4 +86,3 @@ Apply migrations.
 
 .. |Code Climate| image:: https://codeclimate.com/github/flavors/arcgis-marketplace/badges/gpa.svg
    :target: https://codeclimate.com/github/flavors/arcgis-marketplace
-
