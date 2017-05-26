@@ -14,7 +14,8 @@ class ItemAccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Account
         fields = (
-            'id', 'username', 'first_name', 'last_name', 'thumbnail', 'region'
+            'id', 'username', 'first_name', 'last_name', 'avatar',
+            'region', 'created'
         )
 
         extra_kwargs = {
@@ -22,23 +23,25 @@ class ItemAccountSerializer(serializers.ModelSerializer):
         }
 
     def build_field(self, field_name, info, model_class, nested_depth):
-        return self.build_property_field(field_name, model_class)
+        if not hasattr(model_class, field_name):
+            return self.build_property_field(field_name, model_class)
+        return super().build_field(field_name, info, model_class, nested_depth)
 
 
 class AccountSerializer(ItemAccountSerializer):
+
+    class Meta:
+        model = models.Account
+        fields = ('id', 'avatar', 'created')
+        extra_kwargs = {
+            'id': {'source': 'id.hex'}
+        }
 
     def to_representation(self, instance):
         data = instance.data
         data.update(super().to_representation(instance))
         data.update(instance.data)
         return data
-
-    class Meta:
-        model = models.Account
-        fields = ('id', 'avatar')
-        extra_kwargs = {
-            'id': {'source': 'id.hex'}
-        }
 
 
 class WebMapingAppSerializer(serializers.ModelSerializer):
