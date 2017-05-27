@@ -27,7 +27,7 @@ class CompressField(models.FileField):
 
             if not outpath.is_dir() and zipfile.is_zipfile(value):
                 with zipfile.ZipFile(value) as zip_file:
-                    zip_file.extractall(outpath)
+                    zip_file.extractall(outpath.as_posix())
 
         return value
 
