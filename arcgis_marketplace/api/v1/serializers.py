@@ -48,7 +48,7 @@ class WebMapingAppSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.WebMapingApp
-        fields = ('purpose', 'api', 'file', 'configuration')
+        fields = ('purpose', 'api', 'file', 'preview', 'configuration')
         extra_kwargs = {
             'file': {'write_only': True}
         }

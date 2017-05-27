@@ -12,8 +12,8 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from core_flavor import models as core_models
-from core_flavor.urls import reverse_host
 from core_flavor.shortcuts import camel_to_dashed
+from core_flavor.urls import reverse_host
 
 from model_utils import Choices
 from polymorphic.models import PolymorphicModel
@@ -230,3 +230,5 @@ class WebMapingApp(PurposeItem):
             arcgis_settings.ARCGIS_UPLOAD_ITEM_TO
         )
     )
+
+    preview = fields.SymlinkField(_('preview'), blank=True, source='file')
