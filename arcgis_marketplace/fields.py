@@ -23,7 +23,7 @@ class CompressField(models.FileField):
         value = super().pre_save(model_instance, add)
 
         if value.name:
-            outpath = Path(value.path).resolve().parent
+            outpath = Path(value.path).with_suffix('')
 
             if not outpath.is_dir() and zipfile.is_zipfile(value):
                 with zipfile.ZipFile(value) as zip_file:
