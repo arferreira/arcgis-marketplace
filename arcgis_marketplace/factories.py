@@ -51,7 +51,8 @@ class ExpiredAccountFactory(AccountFactory):
     expired = factory.Faker(
         'date_time_between',
         end_date='-1d',
-        tzinfo=utc)
+        tzinfo=utc
+    )
 
 
 class ItemFactory(factory.django.DjangoModelFactory):
