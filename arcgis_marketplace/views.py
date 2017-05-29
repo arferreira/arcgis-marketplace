@@ -25,7 +25,8 @@ class ItemPaypalFormView(DetailView):
             'notify_url': _build_uri(reverse('paypal-ipn')),
             'return_url': _build_uri('paypal-success'),
             'cancel_return': _build_uri('paypal-cancel'),
-            'currency_code': 'EUR'
+            'currency_code': 'EUR',
+            'custom': 'account-item'
         })
 
         return context
