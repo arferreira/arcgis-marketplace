@@ -23,6 +23,7 @@ DEFAULT_SETTINGS = dict(
         'social_django',
         'taggit',
         'core_flavor.apps.CoreAppConfig',
+        'orders_flavor.apps.OrdersAppConfig',
         'arcgis_marketplace.apps.ArcgisMarketplaceAppConfig',
         'tests'
     ),

@@ -39,6 +39,7 @@ Add ``arcgis_marketplace`` to your INSTALLED_APPS setting.
         'taggit',
         ...
         'core_flavor.apps.CoreAppConfig',
+        'orders_flavor.apps.OrdersAppConfig',
         'arcgis_marketplace.apps.ArcgisMarketplaceAppConfig'
     )
 
