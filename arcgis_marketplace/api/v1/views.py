@@ -1,7 +1,8 @@
-from rest_framework import status
-from rest_framework import viewsets
-from rest_framework.decorators import detail_route
-from rest_framework.decorators import list_route
+from orders_flavor import models as orders_models
+from orders_flavor.api import serializers as orders_serializers
+
+from rest_framework import status, viewsets
+from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
 
 from ... import models
@@ -11,7 +12,6 @@ from .. import permissions
 
 from ..decorators import offset_pagination
 
-from . import filters
 from . import serializers
 
 
@@ -24,6 +24,20 @@ class AccountViewSet(viewsets.ReadOnlyModelViewSet):
         permissions.Signed)
 
     serializer_class = serializers.AccountSerializer
+
+
+class ProductViewSet(viewsets.ModelViewSet):
+    lookup_value_regex = '[0-9a-f]{32}'
+    queryset = orders_models.Item.objects.all()
+    permission_classes = (permissions.OwnItem, permissions.ReadOnlyOrSigned)
+    serializer_class = orders_serializers.ItemSerializer
+
+    # filter_class = filters.ItemFilter
+    search_fields = ('name', 'description')
+    ordering_fields = ('name', 'price', 'created')
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user.account)
 
 
 class MeViewSet(mixins.ArcgisAPIMixin,
@@ -75,20 +89,6 @@ class SelfViewSet(mixins.ArcgisAPIMixin,
         return self.get_self_response('users', request, *args, **kwargs)
 
 
-class ProductViewSet(viewsets.ModelViewSet):
-    lookup_value_regex = '[0-9a-f]{32}'
-    queryset = models.Item.objects.active()
-    permission_classes = (permissions.OwnItem, permissions.ReadOnlyOrSigned)
-    serializer_class = serializers.ItemSerializer
-
-    filter_class = filters.ItemFilter
-    search_fields = ('title', 'description')
-    ordering_fields = ('title', 'price', 'created')
-
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user.account)
-
-
 class GroupViewSet(mixins.ArcgisAPIMixin,
                    mixins.ArcgisPaginationMixin,
                    viewsets.ViewSet):
@@ -135,7 +135,7 @@ class GroupViewSet(mixins.ArcgisAPIMixin,
         return self.get_paginated_response(data, request)
 
     @detail_route(methods=['post'])
-    def config_map(self, request, pk=None):
+    def configurable_apps(self, request, pk=None):
         return Response(
             self.account.api.update_group(
                 pk,
