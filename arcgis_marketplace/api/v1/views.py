@@ -37,7 +37,12 @@ class ProductViewSet(viewsets.ModelViewSet):
     ordering_fields = ('name', 'price', 'created')
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user.account)
+        if 'content_type' in self.request.query_params:
+            kwargs = dict(owner=self.request.user.account)
+        else:
+            kwargs = {}
+
+        serializer.save(**kwargs)
 
 
 class MeViewSet(mixins.ArcgisAPIMixin,
