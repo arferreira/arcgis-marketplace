@@ -46,8 +46,7 @@ Hook the Django urls into your URLconf.
 
 .. code:: python
 
-    from django.conf.urls import include
-    from django.conf.urls import url
+    from django.conf.urls import include, url
 
     urlpatterns = [
         url(r'^', include(

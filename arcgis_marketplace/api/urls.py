@@ -1,5 +1,4 @@
-from django.conf.urls import include
-from django.conf.urls import url
+from django.conf.urls import include, url
 
 
 app_name = 'arcgis_marketplace.api'
