@@ -1,15 +1,12 @@
-from core_flavor.api import fields as core_fields
-from core_flavor.api import serializers as core_serializers
-
 from rest_framework import serializers
 
 from ... import models
 
 
-__all__ = ['AccountSerializer', 'ItemSerializer']
+__all__ = ['AccountSerializer', 'WebMapingAppSerializer']
 
 
-class ItemAccountSerializer(serializers.ModelSerializer):
+class AccountBasicSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Account
@@ -28,7 +25,7 @@ class ItemAccountSerializer(serializers.ModelSerializer):
         return super().build_field(field_name, info, model_class, nested_depth)
 
 
-class AccountSerializer(ItemAccountSerializer):
+class AccountSerializer(AccountBasicSerializer):
 
     class Meta:
         model = models.Account
@@ -45,27 +42,15 @@ class AccountSerializer(ItemAccountSerializer):
 
 
 class WebMapingAppSerializer(serializers.ModelSerializer):
+    owner = AccountBasicSerializer(read_only=True)
 
     class Meta:
         model = models.WebMapingApp
-        fields = ('purpose', 'api', 'file', 'preview', 'configuration')
+        fields = (
+            'owner', 'youtube_url', 'purpose', 'api', 'file', 'preview',
+            'configuration'
+        )
+
         extra_kwargs = {
             'file': {'write_only': True}
         }
-
-
-class ItemSerializer(core_serializers.PolymorphicSerializer):
-    id = serializers.UUIDField(source='id.hex', read_only=True)
-    owner = ItemAccountSerializer(read_only=True)
-    price = core_fields.DecimalField()
-
-    class Meta:
-        model = models.Item
-        fields = (
-            'id', 'owner', 'title', 'description', 'price', 'image',
-            'youtube_url', 'modified', 'created'
-        )
-
-        child_serializers = (
-            WebMapingAppSerializer,
-        )
