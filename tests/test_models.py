@@ -10,7 +10,7 @@ class ModelsTests(TestCase):
 
     def test_account_str(self):
         account = factories.AccountFactory()
-        self.assertEqual(str(account), account.user.email)
+        self.assertEqual(str(account), str(account.user))
 
     def test_account_dir(self):
         account = factories.AccountFactory()
