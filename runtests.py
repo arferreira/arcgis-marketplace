@@ -54,6 +54,9 @@ DEFAULT_SETTINGS = dict(
     SOCIAL_AUTH_ARCGIS_KEY='test',
     PAYPAL_BUSINESS='test',
     PAYPAL_TEST=True,
+    ORDERS_ITEMS_SERIALIZERS=[
+        'arcgis_marketplace.api.v1.serializers.WebMapingAppSerializer',
+    ],
     TEMPLATES=[{
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'OPTIONS': {
