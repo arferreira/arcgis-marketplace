@@ -1,6 +1,7 @@
 from django.apps import AppConfig
+from django.utils.translation import ugettext_lazy as _
 
 
 class ArcgisMarketplaceAppConfig(AppConfig):
     name = 'arcgis_marketplace'
-    verbose_name = 'Arcgis marketplace'
+    verbose_name = _('Arcgis marketplace')
