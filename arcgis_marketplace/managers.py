@@ -1,17 +1,15 @@
-from core_flavor.managers import SoftDeletableQuerySet
-
-from polymorphic.manager import PolymorphicManager
-from polymorphic.query import PolymorphicQuerySet
-
+from core_flavor import managers as core_managers
+from orders_flavor import managers as orders_managers
 
 __all__ = ['ItemManager']
 
 
-class BaseItemManager(PolymorphicManager):
+class BaseItemManager(orders_managers.BaseItemManager):
     pass
 
 
-class ItemQuerySet(SoftDeletableQuerySet, PolymorphicQuerySet):
+class ItemQuerySet(core_managers.SoftDeletableQuerySet,
+                   orders_managers.ItemQuerySet):
     pass
 
 
