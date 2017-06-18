@@ -41,4 +41,4 @@ class AdminTests(TestCase):
 
     def test_admin_webmapingapp(self):
         model_admin = admin.WebMapingAppAdmin(models.WebMapingApp, self.site)
-        self.assertIn('title', model_admin.get_fields(request))
+        self.assertIn('name', model_admin.get_fields(request))
