@@ -11,42 +11,42 @@ class ProductViewTests(BaseViewTests):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_product_create_201_CREATED(self):
-        product = factories.ItemFactory.build()
+        product = factories.WebMapingAppFactory.build()
         response = self.client.post(self.reverse('product-list'), {
-            'title': product.title,
+            'name': product.name,
             'price': int(product.price)
         })
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(response.data['title'], product.title)
+        self.assertEqual(response.data['name'], product.name)
 
     def test_product_create_400_BAD_REQUEST(self):
-        product = factories.ItemFactory.build()
+        product = factories.WebMapingAppFactory.build()
         response = self.client.post(self.reverse('product-list'), {
-            'title': product.title,
+            'name': product.name,
         })
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_product_detail_200_OK(self):
-        product = factories.ItemFactory(owner=self.account)
+        product = factories.WebMapingAppFactory(owner=self.account)
         response = self.client.get(product.get_absolute_url())
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['id'], product.id.hex)
 
     def test_product_update_200_OK(self):
-        product = factories.ItemFactory(owner=self.account)
+        product = factories.WebMapingAppFactory(owner=self.account)
         response = self.client.patch(
             product.get_absolute_url(), {
-                'title': 'updated'
+                'name': 'updated'
             })
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['title'], 'updated')
+        self.assertEqual(response.data['name'], 'updated')
 
     def test_product_delete_204_NO_CONTENT(self):
-        product = factories.ItemFactory(owner=self.account)
+        product = factories.WebMapingAppFactory(owner=self.account)
         response = self.client.delete(product.get_absolute_url())
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)

@@ -90,5 +90,5 @@ class ModelsTests(TestCase):
         self.assertEqual(account.subscription_type, 'test')
 
     def test_item_str(self):
-        item = factories.ItemFactory()
-        self.assertEqual(str(item), item.title)
+        item = factories.WebMapingAppFactory()
+        self.assertEqual(str(item), item.name)
