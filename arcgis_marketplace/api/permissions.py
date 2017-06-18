@@ -24,7 +24,8 @@ class IsStaffOrSelf(permissions.BasePermission):
 class OwnItem(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
-        if request.method in permissions.SAFE_METHODS:
+        if request.method in permissions.SAFE_METHODS or\
+                not hasattr(obj, 'owner'):
             return True
 
         return obj.owner.user == request.user
