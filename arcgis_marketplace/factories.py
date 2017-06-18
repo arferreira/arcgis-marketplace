@@ -66,6 +66,8 @@ class PurposeItemFactory(AbstractItemFactory):
 
 class WebMapingAppFactory(PurposeItemFactory):
     file = factory.django.FileField(filename='test.zip')
+    api = factory.fuzzy.FuzzyChoice(
+        choices=models.WebMapingApp.APIS._db_values)
 
     class Meta:
         model = 'arcgis_marketplace.WebMapingApp'
