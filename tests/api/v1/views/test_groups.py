@@ -152,7 +152,7 @@ class GroupiewTests(BaseViewTests):
         )
 
         response = self.client.post(
-            self.reverse('group-config-map', args=('test',))
+            self.reverse('group-configurable-apps', args=('test',))
         )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
