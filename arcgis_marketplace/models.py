@@ -171,6 +171,12 @@ class AbstractItem(core_models.SoftDeletableModel, orders_models.Item):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse_host(
+            'arcgis-marketplace-api:v1:product-detail',
+            args=(self.id.hex,),
+            **arcgis_settings.FLAVOR_REVERSE_EXTRA_KWARGS)
+
 
 class AbstractPurposeItem(AbstractItem):
     PURPOSES = Choices(
