@@ -1,6 +1,9 @@
+from urllib.parse import urlencode
 from rest_framework import status
 
 from arcgis_marketplace import factories
+
+from .... import factories as test_factories
 from ...views import BaseViewTests
 
 
@@ -12,19 +15,43 @@ class ProductViewTests(BaseViewTests):
 
     def test_product_create_201_CREATED(self):
         product = factories.WebMapingAppFactory.build()
-        response = self.client.post(self.reverse('product-list'), {
-            'name': product.name,
-            'price': int(product.price)
-        })
+        response = self.client.post(
+            self.reverse('product-list'), {
+                'name': product.name,
+                'price': int(product.price)
+            })
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data['name'], product.name)
+
+    def test_product_web_mapping_app_create_201_CREATED(self):
+        product = test_factories.WebMapingAppZipFactory.build()
+        path = test_factories.WebMapingAppZipFactory.file__from_path
+        url = '{url}?{params}'.format(
+            url=self.reverse('product-list'),
+            params=urlencode(
+                dict(content_type=product.content_type)
+            )
+        )
+
+        with open(path, 'rb') as zip_file:
+            response = self.client.post(url, {
+                'name': product.name,
+                'price': int(product.price),
+                'purpose': product.purpose,
+                'api': product.api,
+                'file': zip_file
+            }, format='multipart')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data['name'], product.name)
 
     def test_product_create_400_BAD_REQUEST(self):
         product = factories.WebMapingAppFactory.build()
-        response = self.client.post(self.reverse('product-list'), {
-            'name': product.name,
-        })
+        response = self.client.post(
+            self.reverse('product-list'), {
+                'name': product.name,
+            })
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
