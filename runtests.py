@@ -17,6 +17,7 @@ DEFAULT_SETTINGS = dict(
         'django.contrib.contenttypes',
         'django_filters',
         'oauth2_provider',
+        'paypal.standard.ipn',
         'polymorphic',
         'rest_framework',
         'social_django',

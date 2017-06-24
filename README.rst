@@ -32,6 +32,7 @@ Add ``arcgis_marketplace`` to your INSTALLED_APPS setting.
         ...
         'django_filters',
         'oauth2_provider',
+        'paypal.standard.ipn',
         'polymorphic',
         'rest_framework',
         'social_django',
