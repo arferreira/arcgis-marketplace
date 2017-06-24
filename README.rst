@@ -32,7 +32,6 @@ Add ``arcgis_marketplace`` to your INSTALLED_APPS setting.
         ...
         'django_filters',
         'oauth2_provider',
-        'paypal.standard.ipn',
         'polymorphic',
         'rest_framework',
         'social_django',
@@ -57,9 +56,7 @@ Hook the Django urls into your URLconf.
 
         url(r'^', include(
             'arcgis_marketplace.api.urls',
-            namespace='arcgis-marketplace-api')),
-
-        url(r'^paypal/', include('paypal.standard.ipn.urls'))
+            namespace='arcgis-marketplace-api'))
     ]
 
 Apply migrations.
