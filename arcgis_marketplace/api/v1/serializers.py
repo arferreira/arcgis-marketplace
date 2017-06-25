@@ -43,12 +43,14 @@ class AccountSerializer(AccountBasicSerializer):
 
 class WebMapingAppSerializer(serializers.ModelSerializer):
     owner = AccountBasicSerializer(read_only=True)
+    configuration = serializers.JSONField(required=False)
+    url_query = serializers.JSONField(required=False)
 
     class Meta:
         model = models.WebMapingApp
         fields = (
             'owner', 'youtube_url', 'purpose', 'api', 'file', 'preview',
-            'configuration'
+            'configuration', 'url_query'
         )
 
         extra_kwargs = {
