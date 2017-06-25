@@ -1,6 +1,11 @@
 from django.conf import settings
 
 
+ARCGIS_DEFAULT_GROUP_NAME = getattr(
+    settings,
+    'ARCGIS_DEFAULT_GROUP_NAME',
+    'Marketplace')
+
 ARCGIS_UPLOAD_ITEM_TO = getattr(
     settings,
     'ARCGIS_UPLOAD_ITEM_TO',
