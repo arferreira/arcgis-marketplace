@@ -18,7 +18,8 @@ class ProductViewTests(BaseViewTests):
         response = self.client.post(
             self.reverse('product-list'), {
                 'name': product.name,
-                'price': int(product.price)
+                'price': int(product.price),
+                'tax_rate': int(product.tax_rate)
             })
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -38,6 +39,7 @@ class ProductViewTests(BaseViewTests):
             response = self.client.post(url, {
                 'name': product.name,
                 'price': int(product.price),
+                'tax_rate': int(product.tax_rate),
                 'purpose': product.purpose,
                 'api': product.api,
                 'file': zip_file
