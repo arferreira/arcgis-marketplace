@@ -144,7 +144,13 @@ class GroupiewTests(BaseViewTests):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     @responses.activate
-    def test_group_config_map_200_OK(self, method=None):
+    def test_group_configurable_apps_200_OK(self, method=None):
+        add_response(
+            'POST',
+            'portals/self',
+            json={'success': True}
+        )
+
         add_response(
             'POST',
             'community/groups/test/update',
