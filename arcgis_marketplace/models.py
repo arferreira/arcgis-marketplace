@@ -11,8 +11,8 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from core_flavor import models as core_models
-from core_flavor.shortcuts import camel_to_dashed
 from core_flavor.urls import reverse_host
+from core_flavor.utils import camel_to_dashed
 
 from model_utils import Choices
 from orders_flavor import models as orders_models

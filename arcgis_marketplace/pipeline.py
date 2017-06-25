@@ -1,4 +1,4 @@
-from core_flavor.shortcuts import camel_to_dashed
+from core_flavor.utils import camel_to_dashed
 from . import models
 
 
