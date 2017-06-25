@@ -15,6 +15,7 @@ DEFAULT_SETTINGS = dict(
     INSTALLED_APPS=(
         'django.contrib.auth',
         'django.contrib.contenttypes',
+        'django.contrib.sites',
         'django_filters',
         'oauth2_provider',
         'paypal.standard.ipn',
