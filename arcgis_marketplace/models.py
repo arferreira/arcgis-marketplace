@@ -44,6 +44,11 @@ class Account(core_models.SoftDeletableModel,
     expired = models.DateTimeField(null=True)
     data = pg_fields.JSONField()
 
+    items = models.ManyToManyField(
+        'orders_flavor.Item',
+        through='ItemInAccount',
+        verbose_name=_('items'))
+
     class Meta:
         ordering = ('-created',)
 
@@ -178,6 +183,34 @@ class Account(core_models.SoftDeletableModel,
             )
 
             self.avatar.save(thumbnail, content, save=True)
+
+
+class ItemInAccount(models.Model):
+    account = models.ForeignKey(
+        'Account',
+        on_delete=models.CASCADE,
+        related_name='items_in_account',
+        verbose_name=_('account'))
+
+    item = models.ForeignKey(
+        'orders_flavor.Item',
+        on_delete=models.CASCADE,
+        verbose_name=_('item'))
+
+    order = models.ForeignKey(
+        'orders_flavor.Order',
+        null=True,
+        on_delete=models.CASCADE,
+        verbose_name=_('order'))
+
+    arcgis_item = pg_fields.JSONField(_('arcgis item'))
+    arcgis_group = pg_fields.JSONField(_('arcgis group'))
+
+    # file = fields.SymlinkField(_('file'), blank=True, source='item.file')
+    objects = managers.ItemInAccountManager()
+
+    def __str__(self):
+        return "{self.item.name} <{self.account}>".format(self=self)
 
 
 class GenericUUIDTaggedItem(taggit_models.CommonGenericTaggedItemBase,

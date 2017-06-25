@@ -31,6 +31,11 @@ class AccountAdmin(admin.ModelAdmin):
         return obj.org_id
 
 
+@admin.register(models.ItemInAccount)
+class ItemInAccountAdmin(admin.ModelAdmin):
+    list_display = ('account', 'item', 'order')
+
+
 class ItemChildAdmin(polymorphic_admin.PolymorphicChildModelAdmin):
     list_display = ['owner', 'name', 'price', 'created', 'removed']
     list_filter = ['owner', 'created', 'removed']
