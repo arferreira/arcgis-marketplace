@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('contenttypes', '0002_remove_content_type_name'),
-        ('orders_flavor', '0002_auto_20170625_0055'),
+        ('orders_flavor', '0001_initial'),
         ('taggit', '0002_auto_20150616_2121'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
