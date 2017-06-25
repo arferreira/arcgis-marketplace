@@ -123,45 +123,66 @@ class Account(core_models.SoftDeletableModel,
     def groups(self):
         return self.me()['groups']
 
-    def get_or_create_default_group(self):
-        group_name = arcgis_settings.ARCGIS_DEFAULT_GROUP_NAME
+    def get_group(self, value, field=None):
+        if field is None:
+            field = 'id'
 
-        group = next((
+        return next((
             group for group in self.groups
-            if group['title'] == group_name), None)
+            if group[field] == value
+        ), None)
+
+    @property
+    def templates_group_id(self):
+        if not hasattr(self, '_templates_group_id'):
+            self._templates_group_id = (
+                self.self()['templatesGroupQuery'].split(':')[-1]
+            )
+        return self._templates_group_id
+
+    def get_or_create_default_group(self):
+        name = arcgis_settings.ARCGIS_DEFAULT_GROUP_NAME
+        group = self.get_group(name, field='title')
 
         if group is None:
-            return self.api.create_group(
-                title=group_name,
-                access='public'
-            )['group']
-
+            return self.api.create_group(title=name, access='public')['group']
         return group
 
-    def configure_group_to_org(
-            self,
-            group_id,
-            item_id,
-            share_group_items=False):
+    def get_group_for_apps(self):
+        if self.templates_group_id.startswith('esri'):
+            return self.get_or_create_default_group()
+        return self.get_group(self.templates_group_id)
 
-        self.api.update_group(
-            group_id,
-            sortField='title',
-            sortOrder='asc')
+    def set_group_for_apps(self, group_id):
+        """
+        Group contains the apps to use in the configurable apps gallery
+        """
+        self.api.update_group(group_id, sortField='title', sortOrder='asc')
+        self.api.update_self(templatesGroupQuery='id:{}'.format(group_id))
 
-        self.api.update_self(
-            templatesGroupQuery='id:{}'.format(group_id)
-        )
+    def share_items(self, item_id, group_id):
+        """
+        Share the Esri default configurable apps to this group
+        """
+        group_replaced = group_id != self.templates_group_id
 
+        if group_replaced:
+            self.set_group_for_apps(group_id)
+
+        # Share order item
         self.api.share_item(item_id, groups=group_id)
 
-        if share_group_items:
+        if group_replaced:
+            # Share other items
             for item in self.api.group_items(group_id)['items']:
                 try:
                     self.api.share_item(item['id'], groups=group_id)
                 except arcgis_sdk.ArcgisAPIError:
                     # Item has a Relationship Type that does not allow this
                     pass
+
+    def add_item(self, **kwargs):
+        return self.api.add_item(username=self.username, **kwargs)
 
     @property
     def featured_groups(self):
@@ -173,7 +194,8 @@ class Account(core_models.SoftDeletableModel,
 
     def save_thumbnail(self, thumbnail):
         if thumbnail and (
-                not self.avatar.name or thumbnail != self.thumbnail):
+                not self.avatar.name or
+                thumbnail != self.thumbnail):
 
             content = ContentFile(
                 self.api.user_thumbnail(
