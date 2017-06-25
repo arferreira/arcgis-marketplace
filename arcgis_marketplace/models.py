@@ -187,7 +187,11 @@ class AbstractPurposeItem(AbstractItem):
     )
 
     purpose = models.CharField(_('purpose'), choices=PURPOSES, max_length=32)
-    configuration = models.TextField(_('configuration'), blank=True)
+
+    configuration = pg_fields.JSONField(
+        _('configuration'),
+        blank=True,
+        null=True)
 
     class Meta:
         abstract = True
@@ -210,3 +214,8 @@ class WebMapingApp(AbstractPurposeItem):
         ))
 
     preview = fields.SymlinkField(_('preview'), blank=True, source='file')
+
+    url_query = pg_fields.JSONField(
+        _('Url query string'),
+        blank=True,
+        null=True)
