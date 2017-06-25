@@ -118,6 +118,46 @@ class Account(core_models.SoftDeletableModel,
     def groups(self):
         return self.me()['groups']
 
+    def get_or_create_default_group(self):
+        group_name = arcgis_settings.ARCGIS_DEFAULT_GROUP_NAME
+
+        group = next((
+            group for group in self.groups
+            if group['title'] == group_name), None)
+
+        if group is None:
+            return self.api.create_group(
+                title=group_name,
+                access='public'
+            )['group']
+
+        return group
+
+    def configure_group_to_org(
+            self,
+            group_id,
+            item_id,
+            share_group_items=False):
+
+        self.api.update_group(
+            group_id,
+            sortField='title',
+            sortOrder='asc')
+
+        self.api.update_self(
+            templatesGroupQuery='id:{}'.format(group_id)
+        )
+
+        self.api.share_item(item_id, groups=group_id)
+
+        if share_group_items:
+            for item in self.api.group_items(group_id)['items']:
+                try:
+                    self.api.share_item(item['id'], groups=group_id)
+                except arcgis_sdk.ArcgisAPIError:
+                    # Item has a Relationship Type that does not allow this
+                    pass
+
     @property
     def featured_groups(self):
         return self.self()['featuredGroups']
