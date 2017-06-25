@@ -141,7 +141,7 @@ class GroupViewSet(mixins.ArcgisAPIMixin,
 
     @detail_route(methods=['post'])
     def configurable_apps(self, request, pk=None):
-        return Response(self.account.configure_group_to_org(pk))
+        return Response(self.account.set_group_for_apps(pk))
 
 
 class ItemViewSet(mixins.ArcgisAPIMixin,
