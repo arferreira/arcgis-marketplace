@@ -1,5 +1,7 @@
 from rest_framework import permissions
 
+from .. import models
+
 
 class Signed(permissions.BasePermission):
 
@@ -21,6 +23,14 @@ class IsStaffOrSelf(permissions.BasePermission):
         return request.user.is_staff or request.user == obj.user
 
 
+class ReadOnlyOrSigned(Signed):
+
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return super().has_permission(request, view)
+
+
 class OwnItem(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
@@ -31,9 +41,14 @@ class OwnItem(permissions.BasePermission):
         return obj.owner.user == request.user
 
 
-class ReadOnlyOrSigned(Signed):
+class OwnItemOrPaid(permissions.BasePermission):
 
-    def has_permission(self, request, view):
-        if request.method in permissions.SAFE_METHODS:
+    def has_object_permission(self, request, view, obj):
+        if isinstance(obj, models.WebMapingApp) and (
+                obj.is_free or request.user.order_set
+                .paid()
+                .filter(items__id=obj.id)
+                .exists()):
             return True
-        return super().has_permission(request, view)
+
+        return obj.owner.user == request.user
