@@ -6,6 +6,7 @@ from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
 
 from ... import models
+from ...tasks import add_item_to_account
 
 from .. import mixins
 from .. import permissions
@@ -29,7 +30,10 @@ class AccountViewSet(viewsets.ReadOnlyModelViewSet):
 class ProductViewSet(viewsets.ModelViewSet):
     lookup_value_regex = '[0-9a-f]{32}'
     queryset = orders_models.Item.objects.all()
-    permission_classes = (permissions.OwnItem, permissions.ReadOnlyOrSigned)
+    permission_classes = (
+        permissions.OwnItem,
+        permissions.ReadOnlyOrSigned)
+
     serializer_class = orders_serializers.ItemSerializer
 
     # filter_class = filters.ItemFilter
@@ -43,6 +47,16 @@ class ProductViewSet(viewsets.ModelViewSet):
             kwargs = {}
 
         serializer.save(**kwargs)
+
+    @detail_route(
+        methods=['get'],
+        permission_classes=[permissions.OwnItemOrPaid])
+    def activate(self, request, *args, **kwargs):
+        account = self.request.user.account
+        obj = self.get_object()
+
+        add_item_to_account.delay(account.id, obj.id)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class MeViewSet(mixins.ArcgisAPIMixin,
