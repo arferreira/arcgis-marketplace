@@ -49,8 +49,11 @@ class ProductViewSet(viewsets.ModelViewSet):
         serializer.save(**kwargs)
 
     @detail_route(
-        methods=['get'],
-        permission_classes=[permissions.OwnItemOrPaid])
+        methods=['post'],
+        permission_classes=(
+            permissions.Signed,
+            permissions.OwnItemOrPaid)
+    )
     def activate(self, request, *args, **kwargs):
         account = self.request.user.account
         obj = self.get_object()
