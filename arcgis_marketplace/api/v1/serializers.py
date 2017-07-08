@@ -1,6 +1,8 @@
+from core_flavor.api import fields as core_fields
 from rest_framework import serializers
 
 from ... import models
+from .. import fields
 
 
 __all__ = ['AccountSerializer', 'WebMapingAppSerializer']
@@ -45,12 +47,19 @@ class WebMapingAppSerializer(serializers.ModelSerializer):
     owner = AccountBasicSerializer(read_only=True)
     configuration = serializers.JSONField(required=False)
     url_query = serializers.JSONField(required=False)
+    tags = core_fields.TaggitField()
+
+    def create(self, validated_data):
+        tags = validated_data.pop('tags')
+        instance = super().create(validated_data)
+        instance.tags.set(*tags)
+        return instance
 
     class Meta:
         model = models.WebMapingApp
         fields = (
             'owner', 'youtube_url', 'purpose', 'api', 'file', 'preview',
-            'configuration', 'url_query'
+            'configuration', 'url_query', 'tags'
         )
 
         extra_kwargs = {
