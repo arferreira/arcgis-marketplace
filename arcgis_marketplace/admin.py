@@ -46,3 +46,4 @@ class WebMapingAppAdmin(ItemChildAdmin):
     base_model = models.WebMapingApp
     list_display = ItemChildAdmin.list_display + ['purpose', 'file', 'api']
     list_filter = ItemChildAdmin.list_filter + ['purpose', 'api']
+    exclude = ('preview',)
