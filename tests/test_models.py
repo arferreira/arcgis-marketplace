@@ -4,6 +4,7 @@ from django.test import TestCase
 from arcgis_marketplace import factories
 
 from .api.shortcuts import add_response
+from . import factories as test_factories
 
 
 class ModelsTests(TestCase):
@@ -90,5 +91,5 @@ class ModelsTests(TestCase):
         self.assertEqual(account.subscription_type, 'test')
 
     def test_item_str(self):
-        item = factories.WebMapingAppFactory()
+        item = test_factories.WebMapingAppZipFactory()
         self.assertEqual(str(item), item.name)

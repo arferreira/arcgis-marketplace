@@ -99,14 +99,8 @@ class SymlinkField(models.Field):
             value = file_index_path.relative_to(path).parent
 
         # Any changes?
-        try:
-            current_path = (path / value).resolve()
-        except OSError:
-            # Python 3.4, 3.5 FileNotFoundError
-            pass
-        else:
-            if previous.resolve() == current_path:
-                return previous
+        if previous.resolve() == (path / value).resolve():
+            return previous
 
         # Create the symlink
         symlink = path.parent / uuid.uuid4().hex
