@@ -10,12 +10,6 @@ class MeViewTests(BaseViewTests):
 
     @responses.activate
     def test_me_200_OK(self):
-        add_response(
-            'GET',
-            'community/users/test',
-            json={'username': 'test'}
-        )
-
         response = self.client.get(self.reverse('me-list'))
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
