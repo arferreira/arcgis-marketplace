@@ -30,6 +30,7 @@ setup(
     install_requires=[
         'Django>=1.11',
         'arcgis-sdk>=0.0.9',
+        'celery>=4.0.2',
         'django-core-flavor>=0.0.15',
         'django-filter>=1.0.2',
         'django-oauth-toolkit>=0.12.0',
@@ -59,6 +60,7 @@ setup(
     tests_require=[
         'Django>=1.11',
         'arcgis-sdk>=0.0.9',
+        'celery>=4.0.2',
         'coverage>=4.4',
         'django-core-flavor>=0.0.15',
         'django-filter>=1.0.2',
