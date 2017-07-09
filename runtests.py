@@ -13,7 +13,9 @@ from django.test.runner import DiscoverRunner
 
 DEFAULT_SETTINGS = dict(
     USE_TZ=True,
+    SITE_ID=1,
     SITE_NAME='test',
+    SITE_DIR=Path(__file__).resolve().parent,
     INSTALLED_APPS=(
         'django.contrib.auth',
         'django.contrib.contenttypes',
@@ -40,8 +42,6 @@ DEFAULT_SETTINGS = dict(
         }
     },
     ROOT_URLCONF='tests.urls',
-    SITE_DIR=Path(__file__).resolve().parent,
-    SITE_ID=1,
     BROKER_URL='memory://',
     REST_FRAMEWORK={
         'DEFAULT_FILTER_BACKENDS': (
