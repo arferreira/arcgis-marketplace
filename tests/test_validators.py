@@ -13,7 +13,7 @@ class ValidatorsTests(TestCase):
         validators.validate_file_extension(obj.file)
 
     def test_validate_file_extension_validation_error(self):
-        obj = test_factories.WebMapingAppTxtFactory()
+        obj = test_factories.WebMapingAppTxtFactory.build()
 
         with self.assertRaises(exceptions.ValidationError):
             validators.validate_file_extension(obj.file)
@@ -23,7 +23,8 @@ class ValidatorsTests(TestCase):
         validators.validate_zip_compression(obj.file)
 
     def test_validate_zip_compression_validation_error(self):
-        obj = test_factories.WebMapingAppTxtFactory(file__filename='test.zip')
+        obj = test_factories.WebMapingAppTxtFactory\
+            .build(file__filename='test.zip')
 
         with self.assertRaises(exceptions.ValidationError):
             validators.validate_zip_compression(obj.file)
