@@ -83,11 +83,11 @@ class ProductViewTests(BaseViewTests):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_products_activate_200_OK(self):
+    def test_products_activate_204_NO_CONTENT(self):
         product = test_factories.WebMapingAppZipFactory(owner=self.account)
 
         response = self.client.post(
             self.reverse('product-activate', args=(product.id.hex,))
         )
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
