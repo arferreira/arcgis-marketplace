@@ -41,6 +41,7 @@ DEFAULT_SETTINGS = dict(
     },
     ROOT_URLCONF='tests.urls',
     SITE_DIR=Path(__file__).resolve().parent,
+    SITE_ID=1,
     REST_FRAMEWORK={
         'DEFAULT_FILTER_BACKENDS': (
             'rest_framework_filters.backends.DjangoFilterBackend',
