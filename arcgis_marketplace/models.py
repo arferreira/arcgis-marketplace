@@ -24,6 +24,7 @@ from taggit.managers import TaggableManager
 from . import fields
 from . import managers
 from . import settings as arcgis_settings
+from .utils import path_to_url
 
 
 class Account(core_models.SoftDeletableModel,
@@ -314,3 +315,7 @@ class WebMapingApp(AbstractPurposeItem):
         _('Url query string'),
         blank=True,
         null=True)
+
+    @property
+    def preview_url(self):
+        return path_to_url(self.preview)
