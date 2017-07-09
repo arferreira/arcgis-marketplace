@@ -3,6 +3,8 @@
 import os
 import sys
 
+from pathlib import Path
+
 import django
 
 from django.conf import settings
@@ -38,6 +40,7 @@ DEFAULT_SETTINGS = dict(
         }
     },
     ROOT_URLCONF='tests.urls',
+    SITE_DIR=Path(__file__).resolve().parent,
     REST_FRAMEWORK={
         'DEFAULT_FILTER_BACKENDS': (
             'rest_framework_filters.backends.DjangoFilterBackend',
