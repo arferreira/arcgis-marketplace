@@ -47,7 +47,9 @@ class ItemInAccountManager(models.Manager):
         if item.image:
             data['thumbnailurl'] = get_full_url(item.image.url)
 
-        arcgis_item = account.add_item(configuration=item.configuration, **data)
+        arcgis_item = account.add_item(
+            configuration=item.configuration,
+            **data)
 
         return self.create(
             account=account,
