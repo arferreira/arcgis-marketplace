@@ -65,7 +65,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         account = self.request.user.account
         obj = self.get_object()
 
-        add_item_to_account(account.id, obj.id)
+        add_item_to_account.delay(account.id, obj.id)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
