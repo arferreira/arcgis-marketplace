@@ -12,10 +12,10 @@ class ExceptionTests(BaseViewTests):
     def test_exception_arcgis_400_BAD_REQUEST(self):
         add_response(
             'GET',
-            'community/users/test',
-            json={'error': 'test'},
+            'content/users/test',
+            json={'error': 'boom!'},
             status=status.HTTP_400_BAD_REQUEST
         )
 
-        response = self.client.get(self.reverse('me-list'))
+        response = self.client.get(self.reverse('me-items'))
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
