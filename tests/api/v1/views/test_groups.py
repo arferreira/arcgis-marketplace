@@ -147,7 +147,7 @@ class GroupiewTests(BaseViewTests):
     def test_group_configurable_apps_200_OK(self, method=None):
         add_response(
             'POST',
-            'portals/self',
+            'portals/self/update',
             json={'success': True}
         )
 
