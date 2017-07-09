@@ -1,9 +1,9 @@
 arcgis-sdk>=0.0.9
 celery>=4.0.2
-django-core-flavor>=0.0.15
+django-core-flavor>=0.0.16
 django-filter>=1.0.2
 django-oauth-toolkit>=0.12.0
-django-orders-flavor>=0.0.3
+django-orders-flavor>=0.0.4
 django-polymorphic>=1.2
 django-taggit>=0.22.1
 djangorestframework-filters>=0.10.0
