@@ -1,10 +1,9 @@
-from pathlib import Path
-
 from django.db import models
-from django.contrib.sites.models import Site
 
 from core_flavor import managers as core_managers
 from orders_flavor import managers as orders_managers
+
+from .utils import get_full_url
 
 
 __all__ = ['ItemManager']
@@ -26,23 +25,29 @@ class ItemInAccountManager(models.Manager):
     ARCGIS_PURPOSES = {
         'ready_to_use': 'Ready To Use',
         'configurable': 'Configurable',
-        'self_configurable': 'selfConfigured',
+        'self_configurable': 'selfConfigured,Configurable',
         'code_sample': 'Code Sample'
     }
 
     def create_item(self, account, item, **kwargs):
-        url = 'https://{domain}{path}'.format(
-            domain=Site.objects.get_current().domain,
-            path=Path(item.file.url).with_suffix('')
-        )
+        data = {
+            'title': item.name,
+            'type': 'Web Mapping Application',
+            'typeKeywords':
+            'Map,Mapping Site,Online Map,Web Map,{api},{purpose}'.format(
+                api=item.get_api_display(),
+                purpose=self.ARCGIS_PURPOSES[item.purpose]
+            ),
+            'overwrite': 'false',
+            'text': item.configuration,
+            'url': get_full_url(item.preview_url),
+            'tags': item.comma_separated_tags
+        }
 
-        # TODO: Add thumbnail url and fix purpose field
-        arcgis_item = account.add_item(
-            title=item.name,
-            type='Web Mapping Application',
-            purpose=self.ARCGIS_PURPOSES[item.purpose],
-            url=url,
-            tags=item.comma_separated_tags)
+        if item.image:
+            data['thumbnailurl'] = get_full_url(item.image.url)
+
+        arcgis_item = account.add_item(**data)
 
         return self.create(
             account=account,
