@@ -47,7 +47,7 @@ class WebMapingAppSerializer(serializers.ModelSerializer):
     owner = AccountBasicSerializer(read_only=True)
     configuration = serializers.JSONField(required=False)
     url_query = serializers.JSONField(required=False)
-    preview = fields.PreviewField()
+    preview = fields.PreviewField(required=False)
     tags = core_fields.TaggitField()
 
     def create(self, validated_data):
