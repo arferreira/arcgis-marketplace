@@ -2,6 +2,7 @@ from arcgis_marketplace import factories
 
 
 class WebMapingAppTxtFactory(factories.WebMapingAppFactory):
+    file__filename = 'test.txt'
     file__from_path = 'tests/test.txt'
 
 
