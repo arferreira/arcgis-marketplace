@@ -1,4 +1,4 @@
-arcgis-sdk>=0.0.11
+arcgis-sdk>=0.0.12
 celery>=4.0.2
 django-core-flavor>=0.0.16
 django-filter>=1.0.2

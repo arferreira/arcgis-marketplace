@@ -29,7 +29,7 @@ setup(
     packages=find_packages(exclude=['tests*']),
     install_requires=[
         'Django>=1.11',
-        'arcgis-sdk>=0.0.11',
+        'arcgis-sdk>=0.0.12',
         'celery>=4.0.2',
         'django-core-flavor>=0.0.16',
         'django-filter>=1.0.2',
@@ -59,7 +59,7 @@ setup(
     zip_safe=False,
     tests_require=[
         'Django>=1.11',
-        'arcgis-sdk>=0.0.11',
+        'arcgis-sdk>=0.0.12',
         'celery>=4.0.2',
         'coverage>=4.4',
         'django-core-flavor>=0.0.16',
