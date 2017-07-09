@@ -150,8 +150,10 @@ class Account(core_models.SoftDeletableModel,
         return group
 
     def get_group_for_apps(self):
+        # Arcgis default group?
         if self.templates_group_id.startswith('esri'):
             return self.get_or_create_default_group()
+        # Get template group
         return self.get_group(self.templates_group_id)
 
     def set_group_for_apps(self, group_id):
