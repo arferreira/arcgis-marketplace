@@ -29,16 +29,23 @@ class AccountViewSet(viewsets.ReadOnlyModelViewSet):
 
 class ProductViewSet(viewsets.ModelViewSet):
     lookup_value_regex = '[0-9a-f]{32}'
-    queryset = orders_models.Item.objects.all()
     permission_classes = (
         permissions.OwnItem,
-        permissions.ReadOnlyOrSigned)
+        permissions.ReadOnlyOrSigned,
+        permissions.MeProductsSigned)
 
     serializer_class = orders_serializers.ItemSerializer
 
     # filter_class = filters.ItemFilter
     search_fields = ('name', 'description')
     ordering_fields = ('name', 'price', 'created')
+
+    def get_queryset(self):
+        if self.request.resolver_match.url_name.startswith('me'):
+            qs = self.request.user.account.items.all()
+        else:
+            qs = orders_models.Item.objects.all()
+        return qs
 
     def perform_create(self, serializer):
         if 'content_type' in self.request.query_params:
@@ -58,7 +65,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         account = self.request.user.account
         obj = self.get_object()
 
-        add_item_to_account.delay(account.id, obj.id)
+        add_item_to_account(account.id, obj.id)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -67,9 +74,12 @@ class MeViewSet(mixins.ArcgisAPIMixin,
                 viewsets.ViewSet):
 
     permission_classes = (permissions.Signed,)
+    serializer_class = serializers.AccountSerializer
 
     def list(self, request, *args, **kwargs):
-        return Response(self.account.me())
+        return Response(
+            self.serializer_class(self.account).data
+        )
 
     @list_route(methods=['get'])
     def groups(self, request, *args, **kwargs):

@@ -52,3 +52,11 @@ class OwnItemOrPaid(permissions.BasePermission):
             return True
 
         return obj.owner.user == request.user
+
+
+class MeProductsSigned(permissions.BasePermission):
+
+    def has_permission(self, request, view):
+        if request.resolver_match.url_name.startswith('me'):
+            return hasattr(request.user, 'account')
+        return True
