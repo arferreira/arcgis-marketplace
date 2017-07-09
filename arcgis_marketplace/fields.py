@@ -83,31 +83,36 @@ class SymlinkField(models.Field):
         return Path(getattr(instance, self.source).path)
 
     def pre_save(self, model_instance, add):
-        value = getattr(model_instance, self.attname)
+        value = Path(getattr(model_instance, self.attname))
         previous = getattr(model_instance, self.symlink_attname)
+        path = self.get_source_path(model_instance).with_suffix('')
 
-        if value:
-            value = Path(value)
-            path = self.get_source_path(model_instance).with_suffix('')
+        if value.is_absolute():
+            # Absolute to relative path
+            value = value.resolve().relative_to(path)
 
-            if not value.is_absolute():
-                value = path / value
+        # Search the index preview
+        file_index_path = next((path / value).glob('**/index.html'), None)
 
-            if previous.resolve() == value.resolve():
-                return previous
+        # Relative path to index
+        if file_index_path is not None:
+            value = file_index_path.relative_to(path).parent
 
-            symlink = path.parent / uuid.uuid4().hex
-            symlink.symlink_to(value)
+        # Any changes?
+        if previous.resolve() == (path / value).resolve():
+            return previous
 
-            value = symlink
+        # Create the symlink
+        symlink = path.parent / uuid.uuid4().hex
+        symlink.symlink_to(path.name / value, target_is_directory=True)
 
         if previous.is_symlink():
             previous.unlink()
 
-        setattr(model_instance, self.attname, value)
+        setattr(model_instance, self.attname, symlink.as_posix())
         self._save_initial(model_instance.__class__, model_instance)
 
-        return value
+        return symlink
 
     def get_internal_type(self):
         return 'FilePathField'
@@ -117,7 +122,6 @@ class SymlinkField(models.Field):
             raise exceptions.ValidationError(
                 self.error_messages['invalid'],
                 code='invalid',
-                params={'value': value}
-            )
+                params={'value': value})
 
         return value
