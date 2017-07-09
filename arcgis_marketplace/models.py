@@ -1,6 +1,7 @@
 import arcgis_sdk
 
 from dateutil.relativedelta import relativedelta
+from urllib.parse import urlencode
 
 from django.conf import settings
 from django.contrib.postgres import fields as pg_fields
@@ -184,8 +185,22 @@ class Account(core_models.SoftDeletableModel,
                     # Item has a Relationship Type that does not allow this
                     pass
 
-    def add_item(self, **kwargs):
-        return self.api.add_item(username=self.username, **kwargs)
+    def add_item(self, configuration=None, **kwargs):
+        item = self.api.add_item(username=self.username, **kwargs)
+
+        if configuration is not None:
+            # Json is not suported!!
+            self.api.update_item(
+                username=self.username,
+                item_id=item['id'],
+                data=urlencode({
+                    'text': configuration
+                }),
+                headers={
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            )
+        return item
 
     @property
     def featured_groups(self):

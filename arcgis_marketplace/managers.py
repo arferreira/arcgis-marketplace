@@ -6,7 +6,7 @@ from orders_flavor import managers as orders_managers
 from .utils import get_full_url
 
 
-__all__ = ['ItemManager']
+__all__ = ['ItemManager', 'ItemInAccountManager']
 
 
 class BaseItemManager(orders_managers.BaseItemManager):
@@ -47,7 +47,7 @@ class ItemInAccountManager(models.Manager):
         if item.image:
             data['thumbnailurl'] = get_full_url(item.image.url)
 
-        arcgis_item = account.add_item(**data)
+        arcgis_item = account.add_item(configuration=item.configuration, **data)
 
         return self.create(
             account=account,
