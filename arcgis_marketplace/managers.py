@@ -1,6 +1,4 @@
 from django.db import models
-
-from core_flavor import managers as core_managers
 from orders_flavor import managers as orders_managers
 
 from .utils import get_full_url
@@ -13,8 +11,7 @@ class BaseItemManager(orders_managers.BaseItemManager):
     pass
 
 
-class ItemQuerySet(core_managers.SoftDeletableQuerySet,
-                   orders_managers.ItemQuerySet):
+class ItemQuerySet(orders_managers.ItemQuerySet):
     pass
 
 

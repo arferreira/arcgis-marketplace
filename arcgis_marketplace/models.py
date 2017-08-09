@@ -259,7 +259,7 @@ class GenericUUIDTaggedItem(taggit_models.CommonGenericTaggedItemBase,
     object_id = models.UUIDField(editable=False)
 
 
-class AbstractItem(core_models.SoftDeletableModel, orders_models.Item):
+class AbstractItem(orders_models.Item):
     owner = models.ForeignKey(
         'Account',
         on_delete=models.CASCADE,
@@ -320,7 +320,6 @@ class WebMapingApp(AbstractPurposeItem):
     )
 
     api = models.CharField(_('api'), choices=APIS, max_length=32)
-
     file = fields.CompressField(
         upload_to=core_models.UUIDUploadTo(
             arcgis_settings.ARCGIS_UPLOAD_ITEM_TO
