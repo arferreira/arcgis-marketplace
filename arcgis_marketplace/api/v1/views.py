@@ -42,9 +42,9 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.resolver_match.url_name.startswith('me'):
-            qs = self.request.user.account.items.all()
+            qs = self.request.user.account.items.active()
         else:
-            qs = orders_models.Item.objects.all()
+            qs = orders_models.Item.objects.active()
         return qs
 
     def perform_create(self, serializer):
