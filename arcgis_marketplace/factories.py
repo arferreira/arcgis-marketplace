@@ -27,7 +27,7 @@ class UserSocialAuthFactory(factory.django.DjangoModelFactory):
 
 class AccountFactory(factory.django.DjangoModelFactory):
     user = factory.SubFactory(UserFactory)
-    data = dict(
+    extra = dict(
         access_token='test',
         refresh_token='test',
         username='test')

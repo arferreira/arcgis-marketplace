@@ -37,9 +37,8 @@ class AccountSerializer(AccountBasicSerializer):
         }
 
     def to_representation(self, instance):
-        data = instance.data
+        data = instance.extra
         data.update(super().to_representation(instance))
-        data.update(instance.data)
         return data
 
 

@@ -20,7 +20,7 @@ class AdminTests(TestCase):
 
     def test_admin_account(self):
         account = factories.AccountFactory(
-            data=dict(
+            extra=dict(
                 username='test',
                 first_name='test',
                 last_name='test',

@@ -28,7 +28,8 @@ from . import settings as arcgis_settings
 from .utils import path_to_url
 
 
-class Account(core_models.SoftDeletableModel,
+class Account(core_models.JSONExtraModel,
+              core_models.SoftDeletableModel,
               core_models.TimeStampedUUIDModel):
 
     user = models.OneToOneField(
@@ -44,7 +45,6 @@ class Account(core_models.SoftDeletableModel,
         ))
 
     expired = models.DateTimeField(null=True)
-    data = pg_fields.JSONField()
 
     items = models.ManyToManyField(
         'orders_flavor.Item',
@@ -56,17 +56,6 @@ class Account(core_models.SoftDeletableModel,
 
     def __str__(self):
         return str(self.user)
-
-    def __dir__(self):
-        return super().__dir__() + list(self.data.keys())
-
-    def __getattribute__(self, attr):
-        try:
-            return super().__getattribute__(attr)
-        except AttributeError:
-            if not attr.startswith('_') and attr in self.data:
-                return self.data[attr]
-            raise
 
     def get_absolute_url(self):
         return reverse_host(
@@ -99,7 +88,7 @@ class Account(core_models.SoftDeletableModel,
             client_id=settings.SOCIAL_AUTH_ARCGIS_KEY,
             refresh_token=self.refresh_token)
 
-        self.data['access_token'] = result['access_token']
+        self.extra['access_token'] = result['access_token']
         self.set_expiration(result['expires_in'])
         self.save()
 
@@ -114,7 +103,7 @@ class Account(core_models.SoftDeletableModel,
         data = self.api.user_detail(self.username)
 
         self.save_thumbnail(data.get('thumbnail'))
-        self.data.update(camel_to_dashed(data))
+        self.extra.update(camel_to_dashed(data))
         self.save()
         return data
 

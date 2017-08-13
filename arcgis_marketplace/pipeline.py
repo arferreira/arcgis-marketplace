@@ -7,7 +7,7 @@ def update_or_create_account(backend, user, response, *args, **kwargs):
         account, _ = models.Account.objects.update_or_create(
             user=user,
             defaults={
-                'data': camel_to_dashed(response)
+                'extra': camel_to_dashed(response)
             }
         )
 
