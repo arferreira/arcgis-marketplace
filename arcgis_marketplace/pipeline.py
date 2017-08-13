@@ -14,12 +14,17 @@ def update_or_create_account(backend, user, response, *args, **kwargs):
         return {'account': account}
 
 
-def update_token_expiration(account=None, social=None, *args, **kwargs):
-    if account is not None and social is not None:
+def update_token_expiration(
+        backend, account=None, social=None, *args, **kwargs):
+
+    if backend.name == 'arcgis' and\
+            account is not None and\
+            social is not None:
+
         account.set_expiration(social.extra_data['expires_in'])
         account.save()
 
 
-def save_thumbnail(response, account=None, *args, **kwargs):
-    if account is not None:
+def save_thumbnail(backend, response, account=None, *args, **kwargs):
+    if backend.name == 'arcgis' and account is not None:
         account.save_thumbnail(response.get('thumbnail'))
