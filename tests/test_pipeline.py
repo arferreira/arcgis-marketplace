@@ -24,19 +24,31 @@ class PipelineTests(TestCase):
         backend = OAuthAuth()
         user = factories.UserFactory()
 
-        pipeline.update_or_create_account(backend, user, dict())
+        pipeline.update_or_create_account(
+            backend=backend,
+            user=user,
+            response=dict())
+
         self.assertFalse(hasattr(user, 'account'))
 
     def test_update_token_expiration(self):
+        backend = ArcGISOAuth2()
         account = factories.ExpiredAccountFactory()
         social_auth = account.social_auth
         social_auth.extra_data = dict(expires_in=1800)
 
-        pipeline.update_token_expiration(account, social_auth)
+        pipeline.update_token_expiration(
+            backend=backend,
+            account=account,
+            social=social_auth)
+
         self.assertFalse(account.is_expired)
 
     def test_update_token_expiration_missing_account(self):
-        pipeline.update_token_expiration(account=None)
+        backend = ArcGISOAuth2()
+        pipeline.update_token_expiration(
+            backend=backend,
+            account=None)
 
     @responses.activate
     def test_save_thumbnail(self):
@@ -48,10 +60,18 @@ class PipelineTests(TestCase):
             stream=True
         )
 
+        backend = ArcGISOAuth2()
         account = factories.AccountFactory()
-        pipeline.save_thumbnail({'thumbnail': 'me.png'}, account=account)
+        pipeline.save_thumbnail(
+            backend=backend,
+            response={'thumbnail': 'me.png'},
+            account=account)
 
         self.assertEqual(account.avatar.file.read(), b':)')
 
     def test_save_thumbnail_missing_account(self):
-        pipeline.save_thumbnail({}, account=None)
+        backend = ArcGISOAuth2()
+        pipeline.save_thumbnail(
+            backend=backend,
+            response={},
+            account=None)
