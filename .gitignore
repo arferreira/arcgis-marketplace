@@ -19,7 +19,6 @@ __pycache__
 .coverage
 .tox
 
-arcgis_marketplace/tests
 build/
 coverage.xml
 dist/
