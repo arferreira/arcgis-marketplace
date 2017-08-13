@@ -49,12 +49,6 @@ class WebMapingAppSerializer(serializers.ModelSerializer):
     preview = fields.PreviewField(required=False)
     tags = core_fields.TaggitField()
 
-    def create(self, validated_data):
-        tags = validated_data.pop('tags')
-        instance = super().create(validated_data)
-        instance.tags.set(*tags)
-        return instance
-
     class Meta:
         model = models.WebMapingApp
         fields = (
@@ -65,3 +59,9 @@ class WebMapingAppSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'file': {'write_only': True}
         }
+
+    def create(self, validated_data):
+        tags = validated_data.pop('tags')
+        instance = super().create(validated_data)
+        instance.tags.set(*tags)
+        return instance
