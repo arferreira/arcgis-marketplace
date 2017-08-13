@@ -1,3 +1,5 @@
+from core_flavor.api import permissions as core_permissions
+
 from orders_flavor import models as orders_models
 from orders_flavor.api import serializers as orders_serializers
 
@@ -20,7 +22,7 @@ class AccountViewSet(viewsets.ReadOnlyModelViewSet):
     lookup_value_regex = '[0-9a-f]{32}'
     queryset = models.Account.objects.active()
     permission_classes = (
-        permissions.IsStaffList,
+        core_permissions.IsStaffList,
         permissions.IsStaffOrSelf,
         permissions.Signed)
 
