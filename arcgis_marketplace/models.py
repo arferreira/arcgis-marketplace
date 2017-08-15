@@ -275,7 +275,7 @@ class AbstractItem(orders_models.Item):
 
     def get_absolute_url(self):
         return reverse_host(
-            'arcgis-marketplace-api:v1:product-detail',
+            'arcgis-marketplace:api:v1:product-detail',
             args=(self.id.hex,),
             **arcgis_settings.FLAVOR_REVERSE_EXTRA_KWARGS)
 
