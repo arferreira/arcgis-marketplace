@@ -2,8 +2,7 @@ import responses
 
 from django.test import TestCase
 
-from arcgis_marketplace import factories
-from arcgis_marketplace import models
+from arcgis_marketplace import factories, models
 
 from . import factories as test_factories
 from .api.shortcuts import add_response

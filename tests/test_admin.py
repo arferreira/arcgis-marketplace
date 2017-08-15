@@ -1,9 +1,7 @@
 from django.contrib.admin.sites import AdminSite
 from django.test import TestCase
 
-from arcgis_marketplace import admin
-from arcgis_marketplace import factories
-from arcgis_marketplace import models
+from arcgis_marketplace import admin, factories, models
 
 
 class MockRequest:
