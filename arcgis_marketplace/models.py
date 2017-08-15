@@ -59,7 +59,7 @@ class Account(core_models.JSONExtraModel,
 
     def get_absolute_url(self):
         return reverse_host(
-            'arcgis-marketplace-api:v1:account-detail',
+            'arcgis-marketplace:api:v1:account-detail',
             args=(self.id.hex,),
             **arcgis_settings.FLAVOR_REVERSE_EXTRA_KWARGS
         )
