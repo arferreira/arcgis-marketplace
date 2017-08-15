@@ -5,7 +5,7 @@ from django.test import TestCase
 from arcgis_marketplace import factories, tasks
 
 from . import factories as test_factories
-from .api.shortcuts import add_response
+from .utils import add_response
 
 
 class TasksTests(TestCase):

@@ -3,8 +3,8 @@ import responses
 from django.test import TestCase
 from arcgis_marketplace import factories
 
-from .api.shortcuts import add_response
 from . import factories as test_factories
+from .utils import add_response
 
 
 class ModelsTests(TestCase):

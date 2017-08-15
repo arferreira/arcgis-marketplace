@@ -6,7 +6,7 @@ from social_core.backends.arcgis import ArcGISOAuth2
 from social_core.backends.oauth import OAuthAuth
 
 from arcgis_marketplace import factories, pipeline
-from .api.shortcuts import add_response
+from .utils import add_response
 
 
 class PipelineTests(TestCase):

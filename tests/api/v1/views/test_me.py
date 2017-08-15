@@ -2,7 +2,7 @@ import responses
 
 from rest_framework import status
 
-from ...shortcuts import add_response
+from ....utils import add_response
 from ...views import BaseViewTests
 
 
